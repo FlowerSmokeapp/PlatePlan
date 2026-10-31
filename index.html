@@ -29,43 +29,16 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{background:radial-gradient(1200px 600px at 20% 0%,#FCEBC2 0%,transparent 60%),var(--bg);color:var(--ink);font:16px/1.55 var(--body);display:grid;place-items:center;padding:32px 20px}
-.stage{display:flex;gap:64px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:1100px}
-.phone{width:410px;height:min(860px,calc(100vh - 64px));min-height:640px;background:#1D1B17;border-radius:56px;padding:14px;box-shadow:0 40px 80px rgba(60,40,10,.28),0 0 0 2px #3A3630 inset;position:relative;flex:0 0 auto}
-.phone::before{content:"";position:absolute;top:24px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:20px;z-index:2}
-.phone iframe{width:100%;height:100%;border:0;border-radius:44px;background:#FAF4E8;display:block}
-.info{max-width:400px;display:grid;gap:18px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo img{width:56px;height:56px;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-h1{font-family:var(--display);font-size:44px;line-height:1;margin:0;letter-spacing:-.02em}
-p{margin:0;color:var(--muted)}
-.lead{font-size:19px;color:var(--ink)}
-.qr{display:flex;gap:16px;align-items:center;background:var(--card);border-radius:18px;padding:16px;box-shadow:0 6px 18px rgba(60,45,20,.08)}
-#qr{width:132px;height:132px;flex:0 0 auto}
-#qr{border-radius:8px}
-.qr b{display:block;font-family:var(--display);font-size:18px;color:var(--ink)}
-.steps{margin:0;padding-left:20px;color:var(--muted);font-size:15px}
-a.btn{display:inline-block;justify-self:start;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 18px}
-a.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-@media (max-width:900px){.stage{gap:32px}.info{order:-1}}
+body{background:radial-gradient(1200px 600px at 20% 0%,#FCEBC2 0%,transparent 60%),var(--bg);color:var(--ink);font:16px/1.55 var(--body);display:grid;place-items:center;padding:16px}
+.stage{display:grid;place-items:center;width:100%;height:100%}
+.phone{height:calc(100% - 8px);aspect-ratio:9/19;max-width:100%;background:#1D1B17;border-radius:clamp(36px,6vh,60px);padding:clamp(10px,1.6vh,16px);box-shadow:0 40px 80px rgba(60,40,10,.28),0 0 0 2px #3A3630 inset;position:relative}
+.phone::before{content:"";position:absolute;top:clamp(18px,2.8vh,28px);left:50%;transform:translateX(-50%);width:28%;height:clamp(24px,3.4vh,34px);background:#000;border-radius:20px;z-index:2}
+.phone iframe{width:100%;height:100%;border:0;border-radius:clamp(26px,4.8vh,46px);background:#FAF4E8;display:block}
 </style>
 </head>
 <body>
 <div class="stage">
   <div class="phone"><iframe src="app.html" title="PlatePlan på en mobil"></iframe></div>
-  <div class="info">
-    <div class="logo"><img src="icons/icon-192.png" alt=""><h1>PlatePlan</h1></div>
-    <p class="lead">Madplan og indkøbsliste på et lille budget. Træk retter ind på ugen, og få indkøbslisten og ugeprisen regnet ud.</p>
-    <div class="qr">
-      <img id="qr" src="icons/qr.png" alt="QR-kode til flowersmokeapp.github.io/PlatePlan">
-      <div><b>Prøv den på din mobil</b><p>Scan koden med kameraet og gem PlatePlan på hjemmeskærmen.</p></div>
-    </div>
-    <ol class="steps">
-      <li>iPhone: Åbn i Safari, tryk på Del og vælg “Føj til hjemmeskærm”.</li>
-      <li>Android: Åbn i Chrome, tryk på “Installér” eller menuen ⋮ og “Føj til startskærm”.</li>
-    </ol>
-    <a class="btn" href="app.html">Åbn i fuld størrelse</a>
-  </div>
 </div>
 
 </body>
