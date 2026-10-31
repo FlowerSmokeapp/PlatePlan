@@ -1,15 +1,15 @@
 /*
-  INDSTILLINGER – ting du selv kan slå til.
+  SETTINGS – things you can switch on yourself.
 
-  GOATCOUNTER_KODE
-    Privatlivsvenlig måling uden cookies. Opret en gratis konto på https://www.goatcounter.com,
-    og skriv din kode her (fx "plateplan", hvis din side er plateplan.goatcounter.com).
-    Tom = ingen måling.
+  GOATCOUNTER_CODE
+    Privacy-friendly analytics without cookies. Create a free account at https://www.goatcounter.com
+    and put your code here (e.g. "plateplan" if your site is plateplan.goatcounter.com).
+    Empty = no analytics.
 
-  VENTELISTE_URL
-    Hvor mailadresser til Premium-ventelisten skal sendes hen, fx en gratis Formspree-formular
-    (https://formspree.io) i formen "https://formspree.io/f/xxxxxx".
-    Tom = adressen gemmes ikke nogen steder, og brugeren får blot en tak for interessen.
+  WAITLIST_URL
+    Where Premium waitlist emails are sent, e.g. a free Formspree form
+    (https://formspree.io) in the form "https://formspree.io/f/xxxxxx".
+    Empty = the email is not stored anywhere, and the user just gets a thank-you.
 */
-const GOATCOUNTER_KODE = "";
-const VENTELISTE_URL = "";
+const GOATCOUNTER_CODE = "";
+const WAITLIST_URL = "";

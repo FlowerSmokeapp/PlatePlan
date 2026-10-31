@@ -1,9 +1,9 @@
 {
-  "name": "PlatePlan – madplan og indkøbsliste",
+  "name": "PlatePlan – dinner plan and shopping list",
   "short_name": "PlatePlan",
-  "description": "Madplan og indkøbsliste på et lille budget",
-  "lang": "da",
-  "start_url": "app.html",
+  "description": "A week of dinners and a shopping list that fit a student budget.",
+  "lang": "en",
+  "start_url": "app.html#week",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
