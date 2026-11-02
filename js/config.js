@@ -1,15 +1,18 @@
 /*
-  SETTINGS – things you can switch on yourself.
+  SETTINGS – fill these in to connect the app to its server.
+
+  SUPABASE_URL and SUPABASE_ANON_KEY
+    From your Supabase project: Project Settings → API. The anon key is meant to be public.
+    Empty = demo mode: accounts and Premium only live on this device, and offers are examples.
 
   GOATCOUNTER_CODE
-    Privacy-friendly analytics without cookies. Create a free account at https://www.goatcounter.com
-    and put your code here (e.g. "plateplan" if your site is plateplan.goatcounter.com).
+    Optional privacy-friendly analytics without cookies (https://www.goatcounter.com).
     Empty = no analytics.
 
-  WAITLIST_URL
-    Where Premium waitlist emails are sent, e.g. a free Formspree form
-    (https://formspree.io) in the form "https://formspree.io/f/xxxxxx".
-    Empty = the email is not stored anywhere, and the user just gets a thank-you.
+  PREMIUM_PRICES
+    Shown on the Premium screen.
 */
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
 const GOATCOUNTER_CODE = "";
-const WAITLIST_URL = "";
+const PREMIUM_PRICES = { monthly: 45, yearly: 299, trialDays: 7 };

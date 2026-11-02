@@ -120,14 +120,15 @@
   function sovs(g, x, y, r, col, R) { blob(g, x, y, r, tone(col, -14), R, 0.22, 16); blob(g, x - 2, y - 2, r * 0.9, col, R, 0.22, 16); shine(g, x, y, r * 0.9, 0.1); }
 
   /* ---------- Sort ingredients into roles ---------- */
-  const CARBS = ["rice", "bulgur", "pasta", "noodles", "potato"];
+  const CARBS = ["rice", "bulgur", "couscous", "pasta", "noodles", "potato"];
   const PROTEIN = { chickenBreast: "kylling", chickenThigh: "kylling", beef: "hakket", pork: "kodbolle", cod: "torsk", tuna: "tun", bacon: "bacon", tofu: "tofu", chickpeas: "kikaert", kidney: "kidney" };
   const VEG = { broccoli: "broccoli", peas: "aert", spinach: "spinat", pepper: "peber", corn: "majs", carrot: "gulerod", zucchini: "squash", leek: "porre", cabbage: "kaal", cucumber: "agurk", cherryTomatoes: "cherry", lettuce: "salat", redOnion: "rodlog" };
   const SMAA = { torsk: 2, aert: 22, majs: 18, kidney: 16, kikaert: 14, tun: 8, hakket: 12, bacon: 12, ost: 26, kaal: 26, persille: 26 };
 
   function roller(r) {
     const has = k => r.ingredients.some(i => i[0] === k);
-    const k = CARBS.find(has);
+    let k = CARBS.find(has);
+    if (k === "couscous") k = "bulgur"; // drawn the same way
     const prot = Object.keys(PROTEIN).filter(has).map(x => PROTEIN[x]);
     const gront = Object.keys(VEG).filter(has).map(x => VEG[x]);
     const top = [];

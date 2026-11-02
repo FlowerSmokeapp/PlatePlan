@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PlatePlan</title>
-<meta name="description" content="Weekly dinner plan and shopping list on a student budget.">
-<meta name="theme-color" content="#FAF4E8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1B1914" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Dinner ideas from what you have at home and what's on offer this week.">
+<meta name="theme-color" content="#FBF8F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191814" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -22,58 +22,58 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="appbar">
-  <div class="brand">
+<!-- 1. Welcome: create an account or log in -->
+<section class="screen" id="welcome" hidden aria-labelledby="welcomeTitle"></section>
+
+<!-- 2. Premium offer, shown right after logging in. The cross closes it. -->
+<section class="screen" id="premium" hidden aria-labelledby="premiumTitle"></section>
+
+<!-- 3. The app -->
+<div id="app" hidden>
+  <header class="appbar">
     <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
       <rect width="48" height="48" rx="13" fill="#2F6143"/>
-      <circle cx="24" cy="24" r="15" fill="#FAF4E8"/>
+      <circle cx="24" cy="24" r="15" fill="#FBF8F2"/>
       <circle cx="24" cy="24" r="9.5" fill="#F2B330"/>
-      <g fill="#2F6143"><circle cx="24" cy="12.2" r="1.6"/><circle cx="33.2" cy="16.6" r="1.6"/><circle cx="35.5" cy="26.6" r="1.6"/><circle cx="29.1" cy="34.6" r="1.6"/><circle cx="18.9" cy="34.6" r="1.6"/><circle cx="12.5" cy="26.6" r="1.6"/><circle cx="14.8" cy="16.6" r="1.6"/></g>
     </svg>
-    <div>
-      <h1>PlatePlan</h1>
-      <p>A week of dinners on your budget</p>
-    </div>
-  </div>
-  <button class="iconbtn" id="openSettings" data-act="settings" aria-label="Settings: budget, people and diet">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="7" r="2.3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="17" r="2.3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-  </button>
-</header>
-
-<main id="main" tabindex="-1">
-  <section class="view" id="view-week" aria-labelledby="weekTitle"></section>
-  <section class="view" id="view-list" aria-labelledby="listTitle" hidden></section>
-  <section class="view" id="view-recipes" aria-labelledby="recipesTitle" hidden></section>
-  <section class="view" id="view-premium" aria-labelledby="premiumTitle" hidden></section>
-</main>
-
-<nav class="tabbar" aria-label="Main menu">
-  <a href="#week" data-view="week">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    <span>Week</span>
-  </a>
-  <a href="#list" data-view="list">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h2.5l2.2 10.5h10.6L20.5 8H7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="19.5" r="1.5" fill="currentColor"/><circle cx="16.5" cy="19.5" r="1.5" fill="currentColor"/></svg>
-    <span>Shopping</span><b class="badge" id="listBadge" hidden></b>
-  </a>
-  <a href="#recipes" data-view="recipes">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    <span>Recipes</span>
-  </a>
-  <a href="#premium" data-view="premium">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-    <span>Premium</span>
-  </a>
-</nav>
+    <h1 id="viewTitle">PlatePlan</h1>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="view" id="view-cook" aria-labelledby="viewTitle"></section>
+    <section class="view" id="view-offers" aria-labelledby="viewTitle" hidden></section>
+    <section class="view" id="view-quick" aria-labelledby="viewTitle" hidden></section>
+    <section class="view" id="view-account" aria-labelledby="viewTitle" hidden></section>
+  </main>
+  <nav class="tabbar" aria-label="Main menu">
+    <a href="#cook" data-view="cook">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6zM2 11h20M9 7.5c0-1.5 1.5-1.5 1.5-3M13.5 7.5c0-1.5 1.5-1.5 1.5-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Cook</span>
+    </a>
+    <a href="#offers" data-view="offers">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.4 1.4 0 0 1 0 2l-7.1 7.1a1.4 1.4 0 0 1-2 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.6" fill="currentColor"/></svg>
+      <span>Offers</span>
+    </a>
+    <a href="#quick" data-view="quick">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>15 min</span>
+    </a>
+    <a href="#account" data-view="account">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20.5c1.2-3.8 4.3-5.5 8-5.5s6.8 1.7 8 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Account</span>
+    </a>
+  </nav>
+</div>
 
 <dialog id="sheet" aria-labelledby="sheetTitle"><div id="sheetBody"></div></dialog>
-<div class="install" id="install" hidden></div>
+<input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/config.js"></script>
-<script src="data/prices.js"></script>
+<script src="data/items.js"></script>
 <script src="data/recipes.js"></script>
+<script src="data/sample-offers.js"></script>
 <script src="js/illustrations.js"></script>
+<script src="js/backend.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
