@@ -1,5 +1,5 @@
 // PlatePlan service worker: keeps the app working offline.
-const CACHE = "plateplan-v3";
+const CACHE = "plateplan-v4";
 const FILES = [
   "./", "./index.html", "./app.html", "./manifest.webmanifest",
   "./css/app.css", "./js/config.js", "./js/app.js", "./js/backend.js", "./js/illustrations.js",
