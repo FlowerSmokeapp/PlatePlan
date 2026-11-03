@@ -12,7 +12,7 @@
   PREMIUM_PRICES
     Shown on the Premium screen.
 */
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
+const SUPABASE_URL = "https://biinlfjuwqfkzakuxsbk.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_zGOmBCgnqxe7IfHiLrcJhw_d3Ru0_Lg";
 const GOATCOUNTER_CODE = "";
 const PREMIUM_PRICES = { monthly: 45, yearly: 299, trialDays: 7 };
