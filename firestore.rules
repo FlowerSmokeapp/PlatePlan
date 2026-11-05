@@ -1,0 +1,30 @@
+rules_version = '2';
+// PlatePlan security rules.
+// Each user can read their own profile and change only their allergies and dislikes.
+// Premium status is only ever set by the server functions (startTrial), never by the app.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn(uid) { return request.auth != null && request.auth.uid == uid; }
+    function validPrefs(d) {
+      return d.allergies is list && d.allergies.size() <= 20
+          && d.dislikes is list && d.dislikes.size() <= 100;
+    }
+
+    match /profiles/{uid} {
+      allow read: if signedIn(uid);
+      allow create: if signedIn(uid)
+        && request.resource.data.keys().hasOnly(['allergies', 'dislikes', 'premium_until', 'trial_used'])
+        && request.resource.data.premium_until == null
+        && request.resource.data.trial_used == false
+        && validPrefs(request.resource.data);
+      allow update: if signedIn(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['allergies', 'dislikes'])
+        && validPrefs(request.resource.data);
+    }
+
+    // offers_cache and scan_counts are server only. Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

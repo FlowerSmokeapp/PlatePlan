@@ -1,9 +1,14 @@
 /*
   SETTINGS – fill these in to connect the app to its server.
 
-  SUPABASE_URL and SUPABASE_ANON_KEY
-    From your Supabase project: Project Settings → API. The anon key is meant to be public.
-    Empty = demo mode: accounts and Premium only live on this device, and offers are examples.
+  FIREBASE_CONFIG
+    From the Firebase console: Project settings → General → Your apps → the web app (</>) → "SDK setup and
+    configuration" → Config. Paste the values below. These values are meant to be public: the data is
+    protected by firestore.rules.
+    Empty apiKey = demo mode: accounts and Premium only live on this device, and offers are examples.
+
+  FIREBASE_REGION
+    Where the server functions run. Must match setGlobalOptions in functions/index.js.
 
   GOATCOUNTER_CODE
     Optional privacy-friendly analytics without cookies (https://www.goatcounter.com).
@@ -12,7 +17,14 @@
   PREMIUM_PRICES
     Shown on the Premium screen.
 */
-const SUPABASE_URL = "https://biinlfjuwqfkzakuxsbk.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_zGOmBCgnqxe7IfHiLrcJhw_d3Ru0_Lg";
+const FIREBASE_CONFIG = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+const FIREBASE_REGION = "europe-west1";
 const GOATCOUNTER_CODE = "";
 const PREMIUM_PRICES = { monthly: 45, yearly: 299, trialDays: 7 };

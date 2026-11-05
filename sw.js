@@ -1,5 +1,5 @@
 // PlatePlan service worker: keeps the app working offline.
-const CACHE = "plateplan-v5";
+const CACHE = "plateplan-v6";
 const FILES = [
   "./", "./index.html", "./app.html", "./manifest.webmanifest",
   "./css/app.css", "./js/config.js", "./js/app.js", "./js/backend.js", "./js/illustrations.js",
@@ -17,7 +17,7 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  const ours = url.origin === self.location.origin || url.hostname.endsWith("fonts.googleapis.com") || url.hostname.endsWith("fonts.gstatic.com") || url.hostname === "cdn.jsdelivr.net";
+  const ours = url.origin === self.location.origin || url.hostname.endsWith("fonts.googleapis.com") || url.hostname.endsWith("fonts.gstatic.com") || url.hostname === "www.gstatic.com";
   if (!ours) return; // server calls and analytics are never cached
   e.respondWith(
     fetch(e.request).then(res => {
