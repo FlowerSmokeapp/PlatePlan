@@ -60,6 +60,7 @@
   const saveKitchen = () => store.set("pp-kitchen", kitchen);
   let place = "fridge", foodQuery = "";
   let offersData = null, offersLoading = false, offerMode = "recipes", offerStore = "", offerQuery = "";
+  let offerZip = store.get("pp-zip", ""); // temporary, like the kitchen
   let quickTool = "";
   let welcomeMode = "signup", plan = "yearly";
   let editProfile = null;
@@ -192,7 +193,12 @@
   }
 
   /* ----- Offers ----- */
-  const STORE_COLORS = { "Netto": "#F6C700", "Rema 1000": "#1E3C8C", "Lidl": "#0050AA", "Føtex": "#0A3D91", "Bilka": "#0072BC", "Meny": "#C8102E", "Coop 365": "#E30613", "Kvickly": "#E30613", "SuperBrugsen": "#E30613", "Løvbjerg": "#D2232A", "Spar": "#E2001A" };
+  const STORE_COLORS = { "Netto": "#F6C700", "Rema 1000": "#1E3C8C", "Lidl": "#0050AA", "Føtex": "#0A3D91", "Bilka": "#0072BC", "Meny": "#C8102E", "Coop 365": "#E30613", "Kvickly": "#E30613", "SuperBrugsen": "#E30613", "Løvbjerg": "#D2232A", "Spar": "#E2001A", "Salling": "#1D1D1B" };
+  function until(iso) {
+    const d = new Date(iso), now = new Date();
+    const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    return d.toDateString() === now.toDateString() ? `Until today ${time}` : `Until ${fmtDay(iso)}`;
+  }
   function offerMatches() {
     const out = {}; // item key -> cheapest matching offer
     const offers = (offersData ? offersData.offers : []).filter(o => !offerStore || o.store === offerStore);
@@ -205,7 +211,7 @@
   async function loadOffers() {
     if (offersData || offersLoading) return;
     offersLoading = true;
-    offersData = await Backend.offers();
+    offersData = await Backend.offers(offerZip);
     offersLoading = false;
     if (view === "offers") renderOffers();
   }
@@ -217,7 +223,13 @@
     const stores = [...new Set(offersData.offers.map(o => o.store))].sort();
     const head = `
       <div class="seg" role="group" aria-label="Show"><button data-act="oMode" data-m="recipes" aria-pressed="${offerMode === "recipes"}">Recipes from offers</button><button data-act="oMode" data-m="list" aria-pressed="${offerMode === "list"}">All offers</button></div>
-      ${offersData.sample ? '<p class="banner">These are example offers. This week\'s real offers appear when PlatePlan is connected to the offer service.</p>' : ""}
+      ${Backend.live ? `<form class="card zipcard" id="zipForm" novalidate>
+        <label for="zip"><b>Reduced items near you</b><span class="small muted">Short-date discounts in Netto, Føtex and Bilka</span></label>
+        <div class="ziprow"><input class="search" id="zip" inputmode="numeric" autocomplete="postal-code" maxlength="4" pattern="[0-9]{4}" placeholder="Postcode, e.g. 8000" value="${esc(offerZip)}"><button class="btn small" type="submit">Show</button></div>
+        <p class="error small" id="zipMsg" role="alert"></p></form>` : ""}
+      ${offersData.sample ? `<p class="banner">${offersData.clearanceSource && !offerZip ? "Enter your postcode above to see real reduced items near you. Until then, these are examples."
+        : offersData.clearanceSource && offerZip ? `No reduced items found near ${esc(offerZip)} right now. These are examples. Try a nearby postcode.`
+        : "These are example offers. Real offers appear when PlatePlan is connected to the offer service."}</p>` : ""}
       <div class="chips" role="group" aria-label="Store"><button class="chip" data-act="oStore" data-s="" aria-pressed="${!offerStore}">All stores</button>${stores.map(s => `<button class="chip" data-act="oStore" data-s="${esc(s)}" aria-pressed="${offerStore === s}">${esc(s)}</button>`).join("")}</div>`;
     let body = "";
     if (offerMode === "recipes") {
@@ -231,11 +243,12 @@
         .sort((a, b) => ((b.before ? 1 - b.price / b.before : 0) - (a.before ? 1 - a.price / a.before : 0)));
       body = `<label class="sr" for="offerQ">Search offers</label><input class="search" id="offerQ" type="search" placeholder="Search offers, e.g. kylling" value="${esc(offerQuery)}" autocomplete="off">
         ${list.length ? `<div class="ogrid">${list.map(o => `<article class="ocard">
-          <span class="store"><i style="background:${STORE_COLORS[o.store] || "var(--muted)"}"></i>${esc(o.store)}</span>
+          <span class="store"><i style="background:${STORE_COLORS[o.store] || "var(--muted)"}"></i>${esc(o.store)}${o.kind === "clearance" ? '<em class="short">Short date</em>' : ""}</span>
+          ${o.storeName ? `<span class="q">${esc(o.storeName)}</span>` : ""}
           ${o.image ? `<img src="${esc(o.image)}" alt="" loading="lazy">` : ""}
           <h3>${esc(o.title)}</h3>${o.quantity ? `<span class="q">${esc(o.quantity)}</span>` : ""}
           <span class="price"><b>${kr(o.price)}</b>${o.before ? `<s>${kr(o.before)}</s>` : ""}</span>
-          ${o.validUntil ? `<span class="until">Until ${fmtDay(o.validUntil)}</span>` : ""}</article>`).join("")}</div>`
+          ${o.validUntil ? `<span class="until">${until(o.validUntil)}</span>` : ""}</article>`).join("")}</div>`
           : '<div class="empty"><p>No offers match your search.</p></div>'}`;
     }
     $("#view-offers").innerHTML = head + body;
@@ -416,6 +429,14 @@
     const refocus = (fn) => { const pos = t.selectionStart, id = t.id; fn(); const n = document.getElementById(id); if (n) { n.focus(); n.setSelectionRange(pos, pos); } };
     if (t.id === "foodQ") { foodQuery = t.value; refocus(() => keepScroll(renderCook)); }
     if (t.id === "offerQ") { offerQuery = t.value; refocus(renderOffers); }
+  });
+  document.addEventListener("submit", e => {
+    if (e.target.id !== "zipForm") return;
+    e.preventDefault();
+    const z = $("#zip").value.trim();
+    if (z && !/^\d{4}$/.test(z)) { $("#zipMsg").textContent = "A Danish postcode has 4 digits."; $("#zip").focus(); return; }
+    offerZip = z; store.set("pp-zip", z); offersData = null; offerStore = ""; track("postcode");
+    renderOffers();
   });
   document.addEventListener("submit", async e => {
     if (e.target.id !== "authForm") return;

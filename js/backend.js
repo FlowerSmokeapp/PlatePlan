@@ -119,17 +119,20 @@
       return { ok: true };
     },
 
-    /** This week's offers: { offers: [{ title, store, price, before, quantity, validUntil, image }], sample } */
-    async offers() {
+    /** Offers: { offers: [{ title, store, storeName, price, before, quantity, validUntil, image, kind }], sample, clearanceSource, zip }
+        zip = a Danish postcode for reduced short-date items near the user (Salling Group). Optional. */
+    async offers(zip) {
+      let clearanceSource = false;
       if (live) {
         try {
-          const { data, error } = await sb.functions.invoke("offers", { method: "GET" });
+          const { data, error } = await sb.functions.invoke("offers", { method: "POST", body: { zip: zip || "" } });
           if (error) throw error;
-          if (data && data.offers && data.offers.length) return { offers: data.offers, sample: false, updated: data.updated };
+          clearanceSource = !!(data && data.sources && data.sources.clearance);
+          if (data && data.offers && data.offers.length) return { offers: data.offers, sample: false, clearanceSource, zip: data.zip, updated: data.updated };
         } catch (e) { console.warn("PlatePlan: offers not available", e); }
       }
       const sunday = new Date(); sunday.setDate(sunday.getDate() + ((7 - sunday.getDay()) % 7)); sunday.setHours(23, 59, 0, 0);
-      return { offers: SAMPLE_OFFERS.map((o, i) => ({ id: "sample-" + i, ...o, validUntil: sunday.toISOString(), image: null })), sample: true };
+      return { offers: SAMPLE_OFFERS.map((o, i) => ({ id: "sample-" + i, ...o, validUntil: sunday.toISOString(), image: null, kind: "weekly" })), sample: true, clearanceSource, zip: zip || null };
     },
 
     /** Sends one photo (base64 JPEG, no prefix) and returns { items: [keys] } or { error }. Premium only. */

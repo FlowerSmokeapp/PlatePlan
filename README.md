@@ -42,7 +42,9 @@ Uden opsætning kører appen i **demo-tilstand**. Så gemmes konti kun på telef
    ```bash
    supabase secrets set ANTHROPIC_API_KEY=din-claude-nøgle
    supabase secrets set TJEK_API_KEY=din-tjek-nøgle
+   supabase secrets set SALLING_API_TOKEN=din-salling-nøgle
    ```
+   - **Salling-nøglen** får du gratis på https://developer.sallinggroup.com (Anti Food Waste API). Den viser nedsatte varer med kort holdbarhed i Netto, Føtex og Bilka tæt på brugerens postnummer.
    - **Claude-nøglen** får du på https://console.anthropic.com. Den bruges kun til billedscanning. Hver bruger kan højst scanne 20 billeder i døgnet.
    - **Tjek-nøglen** får du hos Tjek (eTilbudsavis). Deres API er til licenserede partnere, så få en aftale og læs deres vilkår, før du går live. Hvis Tjeks dokumentation viser andre felter end dem, funktionen bruger, skal du kun rette `fetchTerm()` og `normalize()` i `supabase/functions/offers/index.ts`.
 5. **Appen:** Skriv `SUPABASE_URL` og `SUPABASE_ANON_KEY` (under *Project Settings → API*) i `js/config.js`, og send ændringen til GitHub.
